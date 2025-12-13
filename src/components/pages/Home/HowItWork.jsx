@@ -1,6 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaRobot, FaSearch, FaCommentDots } from 'react-icons/fa';
+import { FaRobot, FaSearch, FaCommentDots, FaArrowRight } from 'react-icons/fa';
+
+const LoadingSkeleton = () => (
+    <div className="w-full bg-transparent py-20 overflow-hidden">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+                <div className="h-12 bg-gray-800 rounded-lg max-w-md mx-auto mb-4 animate-pulse"></div>
+                <div className="h-6 bg-gray-800 rounded-lg max-w-sm mx-auto animate-pulse"></div>
+            </div>
+
+            <div className="grid gap-8 lg:grid-cols-3">
+                {[1, 2, 3].map((item) => (
+                    <div
+                        key={item}
+                        className="p-8 rounded-xl bg-gray-800 animate-pulse h-72"
+                    >
+                        <div className="flex items-center mb-6">
+                            <div className="w-10 h-10 bg-gray-700 rounded-lg mr-4"></div>
+                            <div className="w-12 h-12 rounded-full bg-gray-700"></div>
+                        </div>
+                        <div className="h-7 bg-gray-700 rounded-lg w-2/3 mb-4"></div>
+                        <div className="space-y-2">
+                            <div className="h-4 bg-gray-700 rounded-lg"></div>
+                            <div className="h-4 bg-gray-700 rounded-lg w-5/6"></div>
+                            <div className="h-4 bg-gray-700 rounded-lg w-4/6"></div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    </div>
+);
 
 const containerVariants = {
     hidden: { opacity: 0 },
@@ -14,7 +45,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { y: 30, opacity: 0 },
     visible: {
         y: 0,
         opacity: 1,
@@ -27,9 +58,9 @@ const itemVariants = {
 };
 
 const cardHover = {
-    scale: 1.03,
-    y: -7,
     borderColor: "rgb(52, 211, 153)",
+    y: -5,
+    transition: { duration: 0.3 }
 };
 
 const iconHover = {
@@ -38,6 +69,14 @@ const iconHover = {
 };
 
 const HowItWork = () => {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 800);
+        return () => clearTimeout(timer);
+    }, []);
 
     const steps = [
         {
@@ -58,98 +97,115 @@ const HowItWork = () => {
             description: 'AI suggests the best solution, auto-drafts responses, and learns from every interaction to continuously improve resolution rates.',
             icon: FaCommentDots,
         },
+        {
+            id: '04',
+            title: 'Automated Resolution',
+            description: 'AI suggests the best solution, auto-drafts responses, and learns from every interaction to continuously improve resolution rates.',
+            icon: FaCommentDots,
+        },
     ];
 
-    return (
-        <section className="w-full bg-transparent py-20 overflow-hidden text-white">
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    if (isLoading) {
+        return <LoadingSkeleton />;
+    }
 
+    return (
+        <section className="w-full bg-transparent py-24 overflow-hidden text-white">
+            <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
                 <div className="text-center mb-16">
-                    <motion.h2
-                        className="text-4xl max-sm:text-3xl font-bold text-white tracking-tight"
-                        initial={{ y: -20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
+                    <motion.div
+                        className="inline-flex items-center gap-2 mb-6"
+                        initial={{ opacity: 0, y: -20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        How We Drive Resolution
-                    </motion.h2>
-                    <motion.p
-                        className="mt-3 text-xl text-gray-400 font-light"
+                        <div className="w-2 h-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"></div>
+                        <span className="text-sm font-medium bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                            AI-Powered Process
+                        </span>
+                    </motion.div>
+
+                    <motion.h2
+                        className="text-4xl max-sm:text-3xl font-bold text-white tracking-tight mb-6"
                         initial={{ y: -20, opacity: 0 }}
                         whileInView={{ y: 0, opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
+                        transition={{ duration: 0.6 }}
                     >
-                        Automated, Intelligent, and Customer-Focused
+                        <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                            How It's
+                        </span>{' '}
+                        Works
+                    </motion.h2>
+
+                    <motion.p
+                        className="mt-4 text-xl text-gray-300 font-light max-w-2xl mx-auto"
+                        initial={{ y: -20, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
+                        Everything you need to master complaint resolution with intelligent automation
                     </motion.p>
                 </div>
 
                 <motion.div
-                    className="grid gap-12 lg:grid-cols-3 relative"
+                    className="grid gap-8 lg:grid-cols-2"
                     variants={containerVariants}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, amount: 0.4 }}
+                    viewport={{ once: true, amount: 0.3 }}
                 >
-
-                    {/* Horizontal Connector Line (Desktop/Large Screens) */}
-                    <motion.div
-                        className="hidden lg:block absolute inset-x-0 top-[2.5rem] h-0.5 bg-gray-500/20 transform -translate-y-1/2"
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1, transition: { duration: 1, ease: "easeOut", delay: 0.3 } }}
-                        viewport={{ once: true, amount: 0.4 }}
-                        style={{ originX: 0 }}
-                    />
-
-                    {/* Vertical Connector Line (Mobile/Tablet Screens) */}
-                    <div className="lg:hidden absolute left-[3rem] top-0 bottom-0 w-0.5 bg-gray-500/20"></div>
 
                     {steps.map((step, index) => (
                         <motion.div
                             key={step.id}
                             variants={itemVariants}
                             whileHover={cardHover}
-                            className="relative pl-20 pr-8 py-8 md:p-8 md:pt-12 lg:p-8 lg:pt-12 rounded-xl bg-gray-900 transition-all duration-500 ease-in-out cursor-pointer group 
-                                border-2 border-transparent hover:border-green-500 z-10"
+                            className="relative p-8 rounded-xl bg-gradient-to-b from-gray-900/50 to-gray-800/30 backdrop-blur-sm 
+                                border border-gray-700 hover:border-green-500 transition-all duration-300 cursor-pointer group"
                         >
 
-                            {/* Step Number Badge (Positioned for Mobile/Desktop flow) */}
-                            <div className="absolute top-1/2 left-0 lg:top-0 transform -translate-y-1/2 lg:-translate-y-1/2">
-                                <span className="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white text-xl font-extrabold border-4 border-gray-900 shadow-xl lg:shadow-none">
-                                    {step.id}
-                                </span>
+                            <div className="flex items-center gap-4 mb-5">
+                                <motion.div
+                                    className="p-3 rounded-lg bg-gradient-to-br from-gray-800 to-gray-700"
+                                    whileHover={iconHover}
+                                    transition={{ type: "spring", stiffness: 300 }}
+                                >
+                                    <step.icon className="w-8 h-8 text-green-400" />
+                                </motion.div>
+
+
                             </div>
 
-                            <motion.div
-                                className="mb-6 p-3 inline-block rounded-lg bg-gra-500/20"
-                                whileHover={iconHover}
-                                transition={{ type: "spring", stiffness: 300 }}
-                            >
-                                <step.icon className="w-8 h-8 text-green-400 transition duration-300" />
-                            </motion.div>
-
-                            <h3 className="text-xl font-extrabold text-white mb-4">
+                            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-green-300 transition-colors duration-300">
                                 {step.title}
                             </h3>
 
-                            <p className="text-gray-400 text-base">
+                            <p className="text-gray-400 text-base mb-8 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
                                 {step.description}
                             </p>
 
-                            {/* Horizontal Flow Dot (Desktop) */}
-                            <div className="hidden lg:block absolute inset-x-0 top-6 h-3 w-3 rounded-full bg-green-600 mx-auto z-20"></div>
-
-                            {/* Vertical Flow Dot (Mobile/Tablet) */}
-                            <div className="lg:hidden absolute left-[2.5rem] top-1/2 h-3 w-3 rounded-full bg-green-600 transform -translate-x-1/2 -translate-y-1/2 z-20"></div>
-
-                            {/* Mobile Connector Overlap Fix */}
-                            {index < steps.length - 1 && (
-                                <div className="lg:hidden absolute left-[3rem] bottom-0 h-8 w-0.5 bg-gray-800 z-30"></div>
-                            )}
+                            <div className="flex items-center text-green-400 font-medium group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Learn more</span>
+                                <FaArrowRight className="ml-3 group-hover:ml-4 transition-all duration-300" />
+                            </div>
 
                         </motion.div>
                     ))}
+                </motion.div>
+
+                <motion.div
+                    className="text-center mt-16"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                    <button className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-green-500 hover:to-emerald-500 transition-all duration-300">
+                        Get Started Today
+                    </button>
                 </motion.div>
 
             </div>
