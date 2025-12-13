@@ -1,129 +1,206 @@
 import React from 'react';
-// I'm using icons from react-icons/fa and react-icons/md.
-// You'll need to install them if you haven't already: npm install react-icons
-import { FaFacebookF, FaYoutube } from 'react-icons/fa';
-import { MdPhone, MdEmail, MdLocationOn } from 'react-icons/md';
+import { motion } from 'framer-motion';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram, FaRegEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaChartBar } from 'react-icons/fa';
+
+// --- Framer Motion Variants ---
+
+// Container for staggered animation
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+        },
+    },
+};
+
+// Item animation for links and sections
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+};
+
+// Social icon pop/pulse animation
+const socialHover = {
+    hover: { scale: 1.2, transition: { type: "spring", stiffness: 400, damping: 10 } } // Stronger pop effect
+};
+
+// Quick Link hover animation (Slide to the right)
+const linkSlideHover = {
+    hover: { x: 5, transition: { type: "spring", stiffness: 300 } } // Subtle slide
+};
+
 
 const Footer = () => {
+    const headerStyle = "text-xl font-bold text-green-400 mb-6 relative after:content-[''] after:absolute after:bottom-[-8px] after:left-0 after:w-10 after:h-[2px] after:bg-green-500";
+    const linkStyle = "text-gray-400 hover:text-green-400 transition duration-300 cursor-pointer text-sm block py-1";
+    const contactIconBg = "bg-gray-700/50 p-2 rounded-lg text-green-400";
+    const contactTextStyle = "text-gray-400 text-sm";
+
+
     return (
-        // Main Footer Container with gradient background
-        <footer className="bg-transparent text-gray-400">
-            <div className="border-t border-gray-700/50 pt-16 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-20">
-                    
-                    {/* Column 1: Institute Info */}
-                    <div className="space-y-4">
-                        <div className="flex items-center space-x-3">
-                            {/* Logo/Icon placeholder */}
-                            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center p-1">
-                                <img
-                                    src="https://i.ibb.co.com/mrGbBCtq/511017443-1126095552869235-1406722978156443780-n.jpg" // Replace with your actual logo image path
-                                    alt="M@RUF'S ICT CARE Logo"
-                                    className="w-full h-full object-contain rounded-full"
-                                />
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-white">M@RUF'S ICT CARE</h3>
-                                <p className="text-sm text-green-400 italic">Excellence in Education</p>
-                            </div>
-                        </div>
+        <motion.footer
+            // NOTE: Changing bg-transparent to bg-gray-900/95 for a modern dark look that respects transparency slightly
+            className="w-full bg-transparent text-white"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+        >
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
-                        <p className="text-sm mt-4 leading-relaxed max-w-sm">
-                            আপনার সন্তানকে সুশিক্ষায়িত এবং ICT বিষয়ে EDÜ পরিবারে স্বাগত! আমাদের প্রতিষ্ঠানে 
-                            ৯ টি ক্লাসের HSC ICT Zero To Hero ক্লাসগুলো করার কৌশলময় পরীক্ষা পদ্ধতি 
-                            দিয়ে নিশ্চিতভাবে স্কুলে সফলতা আসবে।
+                {/* --- 1. CTA Section (Halka/Light Contrast) --- */}
+                <motion.div
+                    className="bg-transparent rounded-xl p-10 md:p-12 -mt-16 mb-16"
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                    <div className="flex flex-col md:flex-row items-center justify-between">
+                        <div className="text-center md:text-left mb-6 md:mb-0">
+                            <h2 className="text-2xl md:text-4xl font-extrabold text-white">
+                                Ready to <span className="text-green-400">Transform</span> Your Preparation?
+                            </h2>
+                            <p className="text-gray-400 mt-2 text-sm">
+                                Join MCQ Analysis BD today and start your journey to academic success.
+                            </p>
+                        </div>
+                        <a href="#" className="w-full  md:w-auto">
+                            <motion.button
+                                className="px-8 py-3 text-lg font-semibold rounded-full bg-green-600 text-white hover:bg-green-700 transition duration-300 shadow-lg shadow-green-600/50"
+                                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(52, 211, 153, 0.7)" }} // Green box shadow pop
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Get Started Now
+                            </motion.button>
+                        </a>
+                    </div>
+                </motion.div>
+
+                {/* --- 2. Main Footer Content Grid --- */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-12 pb-16 pt-8">
+
+                    {/* 2.1. Logo and Description */}
+                    <motion.div variants={itemVariants} className="col-span-1 md:col-span-1">
+                        <div className="flex items-center mb-6">
+                           <img className='w-32 -mt-5' src="../../../../../public/logo/download.png" alt="" />
+                        </div>
+                        <p className="text-gray-400 mt-4 text-sm">
+                            Transform your academic goals with AI-powered insights. Achieve mastery through data-driven, strategic preparation.
                         </p>
-
-                        <div className="pt-2 space-y-3">
-                            <p className="flex items-center space-x-3 text-sm">
-                                <MdPhone className="text-green-500 w-5 h-5" />
-                                <span>01723619524</span>
-                            </p>
-                            <p className="flex items-center space-x-3 text-sm">
-                                <MdEmail className="text-green-500 w-5 h-5" />
-                                <span>marufsarvis@gmail.com</span>
-                            </p>
-                            <p className="flex items-start space-x-3 text-sm">
-                                <MdLocationOn className="text-green-500 w-5 h-5 flex-shrink-0 mt-0.5" />
-                                <span>Moriam Clinic Lane, Hospital Mor, Talipara, Kushtia</span>
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Column 2: Quick Links */}
-                    <div className="space-y-4">
-                        <h4 className="text-lg font-semibold text-white">Quick Links</h4>
-                        <ul className="space-y-2 text-sm">
-                            <li><a href="#" className="hover:text-white transition duration-200">About Us</a></li>
-                            <li><a href="#" className="hover:text-white transition duration-200">Our Branches</a></li>
-                            <li><a href="#" className="hover:text-white transition duration-200">Batches</a></li>
-                            <li><a href="#" className="hover:text-white transition duration-200">Student Login</a></li>
-                            <li><a href="#" className="hover:text-white transition duration-200">Registration</a></li>
-                        </ul>
-                    </div>
-
-                    {/* Column 3: Get Started & Follow Us */}
-                    <div className="space-y-8">
-                        <div className="space-y-4">
-                            <h4 className="text-lg font-semibold text-white">Get Started</h4>
-                            {/* Register Now Button (Green) */}
-                            <a 
-                                href="#" 
-                                className="inline-block w-full py-3 px-6 text-white font-medium text-center rounded-lg transition duration-300 
-                                bg-green-500 hover:bg-green-600 shadow-md shadow-green-500/30"
-                                style={{ backgroundColor: '#20B95B' }} // Use exact green from the image
-                            >
-                                Register Now
-                            </a>
-                            {/* Student Login Button (Dark/Bordered) */}
-                            <a 
-                                href="#" 
-                                className="inline-block w-full py-3 px-6 text-white font-medium text-center rounded-lg transition duration-300 
-                                border border-gray-600 hover:bg-gray-700"
-                                style={{ backgroundColor: '#182436' }} // Use exact background for the button
-                            >
-                                Student Login
-                            </a>
-                        </div>
-                        
-                        {/* Follow Us Section */}
-                        <div className="space-y-3">
-                            <h4 className="text-lg font-semibold text-white">Follow Us</h4>
-                            <div className="flex space-x-3">
-                                {/* Facebook Icon */}
-                                <a 
-                                    href="https://www.facebook.com/marufsictacare" 
-                                    className="w-10 h-10 flex items-center justify-center bg-[#182436] rounded-md hover:bg-gray-700 transition duration-200"
-                                    aria-label="Follow us on Facebook"
+                        {/* Social Icons with POP Animation */}
+                        <div className="flex space-x-4 mt-8">
+                            {[FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram].map((Icon, index) => (
+                                <motion.a
+                                    key={index}
+                                    href="#"
+                                    className="p-3 bg-gray-700 text-gray-300 rounded-full"
+                                    variants={socialHover}
+                                    whileHover="hover"
                                 >
-                                    <FaFacebookF className="w-4 h-4 text-white" />
-                                </a>
-                                {/* YouTube Icon */}
-                                <a 
-                                    href="#" 
-                                    className="w-10 h-10 flex items-center justify-center bg-[#182436] rounded-md hover:bg-gray-700 transition duration-200"
-                                    aria-label="Subscribe to our YouTube channel"
+                                    <Icon className="w-4 h-4" />
+                                </motion.a>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* 2.2. Quick Links (with Slide Animation) */}
+                    <motion.div variants={itemVariants}>
+                        <h3 className={headerStyle}>Quick Links</h3>
+                        <motion.ul className="space-y-4">
+                            {['Features', 'How It Works', 'Why Choose Us', 'Pricing', 'Success Stories'].map((link, index) => (
+                                <motion.li
+                                    key={index}
+                                    variants={itemVariants}
+                                    whileHover="hover"
                                 >
-                                    <FaYoutube className="w-4 h-4 text-white" />
-                                </a>
+                                    <motion.a
+                                        href="#"
+                                        className={linkStyle}
+                                        variants={linkSlideHover}
+                                    >
+                                        {link}
+                                    </motion.a>
+                                </motion.li>
+                            ))}
+                        </motion.ul>
+                    </motion.div>
+
+                    {/* 2.3. Resources (with Slide Animation) */}
+                    <motion.div variants={itemVariants}>
+                        <h3 className={headerStyle}>Resources</h3>
+                        <motion.ul className="space-y-4">
+                            {['Blog', 'Study Tips', 'FAQ', 'Support Center', 'Documentation'].map((link, index) => (
+                                <motion.li
+                                    key={index}
+                                    variants={itemVariants}
+                                    whileHover="hover"
+                                >
+                                    <motion.a
+                                        href="#"
+                                        className={linkStyle}
+                                        variants={linkSlideHover}
+                                    >
+                                        {link}
+                                    </motion.a>
+                                </motion.li>
+                            ))}
+                        </motion.ul>
+                    </motion.div>
+
+                    {/* 2.4. Contact Us */}
+                    <motion.div variants={itemVariants}>
+                        <h3 className={headerStyle}>Contact Us</h3>
+                        <div className="space-y-5">
+                            <div className="flex items-start">
+                                <div className={contactIconBg}><FaMapMarkerAlt className="w-4 h-4" /></div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-semibold text-white">Office Address</p>
+                                    <span className={contactTextStyle}>Bogra, Rajshahi Division, Bangladesh</span>
+                                </div>
+                            </div>
+                            <div className="flex items-start">
+                                <div className={contactIconBg}><FaRegEnvelope className="w-4 h-4" /></div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-semibold text-white">Email Us</p>
+                                    <span className={contactTextStyle}>info@mcqanalysisbd.com</span>
+                                </div>
+                            </div>
+                            <div className="flex items-start">
+                                <div className={contactIconBg}><FaPhoneAlt className="w-4 h-4" /></div>
+                                <div className="ml-4">
+                                    <p className="text-sm font-semibold text-white">Call Us</p>
+                                    <span className={contactTextStyle}>+880 123 456 7890</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
-            </div>
 
-            {/* Footer Bottom Bar (Copyright & Legal Links) */}
-            <div className="border-t border-gray-700/50 bg-gray-900 py-5 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-xs">
-                    <p>&copy; 2025 M@RUF'S ICT CARE. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-3 sm:mt-0">
-                        <a href="#" className="hover:text-white transition duration-200">Privacy Policy</a>
-                        <a href="#" className="hover:text-white transition duration-200">Terms of Service</a>
-                        <a href="#" className="hover:text-white transition duration-200">Support</a>
+                {/* Bottom Bar (Copyright & Legal Links) */}
+                <div className="w-full border-t border-gray-700 py-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mb-3 md:mb-0">
+                            &copy; 2026 AI Powered Customers Complain Management. All rights reserved. Made with <span role="img" aria-label="love" className="text-red-500">❤️</span> in Bangladesh
+                        </motion.p>
+                        <div className="flex space-x-6">
+                            {['Privacy Policy', 'Terms of Service', 'Cookie Policy'].map((text, index) => (
+                                <motion.a
+                                    key={index}
+                                    href="#"
+                                    className="hover:text-green-400 transition duration-300"
+                                    initial={{ opacity: 0, x: 10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.7 + index * 0.1 }}
+                                >
+                                    {text}
+                                </motion.a>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </footer>
+        </motion.footer>
     );
 };
 

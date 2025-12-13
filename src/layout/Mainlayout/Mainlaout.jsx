@@ -51,7 +51,7 @@ const Mainlayout = () => {
     };
 
     return (
-        <div className='bg-[#00091a] min-h-screen text-white font-roboto overflow-x-hidden'>
+        <div className='bg-[#00091a] min-h-screen text-white  overflow-x-hidden'>
             {/* Scroll progress button */}
             <motion.div
                 className="fixed bottom-6 right-6 z-50"
