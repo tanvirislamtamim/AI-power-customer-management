@@ -1,11 +1,15 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { CiMenuFries } from 'react-icons/ci';
 import { IoClose } from 'react-icons/io5';
+
+// প্রয়োজনীয় React Icons ইমপোর্ট করা হলো
+import { AiOutlineHome, AiOutlineInfoCircle } from 'react-icons/ai'; // Home, About
+import { BiBook } from 'react-icons/bi'; // Book
+import { RiFileListLine } from 'react-icons/ri'; // Exam (বা Syllabus/List)
+// import { TbArrowGuide  } from 'react-icons/io'; // Guideline
+import { FiVideo } from 'react-icons/fi'; // Video
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,14 +22,15 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
+    // NavItems অ্যারে আপডেট করে আইকন যোগ করা হলো
     const navItems = [
-        { name: 'Home', to: '/' },
-        { name: 'About', to: '/about' },
-        { name: 'Batches', to: '/batches' },
-        // { name: 'Branches', to: '/branches' },
-        { name: 'Books', to: '/books' },
-        { name: 'Instructors', to: '/instructor' },
-        { name: 'Contact Us', to: '/contact-us' },
+        { name: 'Home', to: '/', icon: AiOutlineHome },
+        { name: 'About', to: '/about', icon: AiOutlineInfoCircle },
+        { name: 'Book', to: '/book', icon: BiBook },
+        // { name: 'Branches', to: '/branches' }, // Commented out
+        { name: 'Exam', to: '/exam', icon: RiFileListLine },
+        { name: 'Guideline', to: '/guideline', icon: BiBook },
+        { name: 'Video ', to: '/video', icon: FiVideo },
     ];
 
     // Active class check function
@@ -136,6 +141,21 @@ const Navbar = () => {
         }
     };
 
+    // আইকন রেন্ডার করার জন্য একটি কাস্টম কম্পোনেন্ট ফাংশন
+    const renderNavText = (item, isMobile = false) => {
+        const IconComponent = item.icon;
+        const iconSize = isMobile ? '1.2em' : '1.1em'; // মোবাইল মেনুতে আইকন কিছুটা বড়
+
+        return (
+            <span className='flex items-center gap-2'>
+                <IconComponent className='text-xl' style={{ minWidth: iconSize }} />
+                <span className='whitespace-nowrap'>
+                    {item.name}
+                </span>
+            </span>
+        );
+    };
+
     return (
         <motion.nav
             className='w-full fixed top-0 z-50 border-b border-gray-800/50'
@@ -154,16 +174,16 @@ const Navbar = () => {
                     >
                         <Link to="/" className='flex items-center'>
                             <motion.div
-                                className='w-14 h-14 max-sm:w-10 max-sm:h-10 bg-[#00091a] rounded-lg flex items-center justify-center mr-3'
+                                className='w-32 h-10 max-sm:w-24 max-sm:h-10 bg-[#00091a] rounded-lg flex items-center justify-center mr-3'
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                             >
-                                <img className=' rounded-full' src="https://i.ibb.co.com/mrGbBCtq/511017443-1126095552869235-1406722978156443780-n.jpg" alt="" />
+                                <img className=' rounded-full ' src="../../../../../public/logo/download.png" alt="" />
                             </motion.div>
                         </Link>
                     </motion.div>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop Navigation - আইকন সহ আপডেট করা হলো */}
                     <div className='hidden md:flex items-center space-x-4'>
                         {navItems.map((item, index) => (
                             <motion.div
@@ -180,12 +200,12 @@ const Navbar = () => {
                             >
                                 <Link
                                     to={item.to}
-                                    className={`relative px-3 py-2 transition-all duration-300 group ${isActiveLink(item.to)
+                                    className={`relative px-3 py-2 transition-all duration-300 group flex items-center ${isActiveLink(item.to)
                                         ? 'text-[#00baff] font-semibold'
                                         : 'text-white hover:text-[#00baff]'
                                         }`}
                                 >
-                                    {item.name}
+                                    {renderNavText(item)} {/* Desktop-এর জন্য আইকন ও নাম রেন্ডার করা হলো */}
 
                                     {/* Active Indicator */}
                                     {isActiveLink(item.to) && (
@@ -231,6 +251,29 @@ const Navbar = () => {
                         </Link>
 
 
+                        <Link to="/register">
+                            <motion.button
+                                className='px-6 py-2 bg-gradient-to-r from-orange-500 to-green-600 text-white rounded-lg transition-all duration-300 relative overflow-hidden'
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5, delay: 0.5 }}
+                                whileHover={{
+                                    scale: 1.05,
+                                    boxShadow: "0 0 25px rgba(59, 130, 246, 0.6)"
+                                }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <span className="relative z-10">Register</span>
+                                <motion.span
+                                    className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"
+                                />
+                            </motion.button>
+                        </Link>
+
+
+
+
+
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -248,7 +291,7 @@ const Navbar = () => {
                     </motion.button>
                 </div>
 
-                {/* Mobile Navigation */}
+                {/* Mobile Navigation - আইকন সহ আপডেট করা হলো */}
                 <AnimatePresence>
                     {isOpen && (
                         <motion.div
@@ -270,7 +313,7 @@ const Navbar = () => {
                                     >
                                         <Link
                                             to={item.to}
-                                            className={`block px-4 py-3 rounded-lg transition-all duration-300 mx-2 ${isActiveLink(item.to)
+                                            className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all duration-300 mx-2 ${isActiveLink(item.to)
                                                 ? 'text-[#00baff] bg-blue-500/10 border-l-2 border-[#00baff]'
                                                 : 'text-white hover:text-[#00baff] hover:bg-gray-800/50'
                                                 }`}
@@ -280,7 +323,7 @@ const Navbar = () => {
                                                 whileHover={{ x: 5 }}
                                                 transition={{ type: "spring", stiffness: 400 }}
                                             >
-                                                {item.name}
+                                                {renderNavText(item, true)} {/* Mobile-এর জন্য আইকন ও নাম রেন্ডার করা হলো */}
                                             </motion.span>
                                         </Link>
                                     </motion.div>
@@ -299,6 +342,7 @@ const Navbar = () => {
                                             Login
                                         </motion.button>
                                     </Link>
+
 
                                 </div>
                             </div>
