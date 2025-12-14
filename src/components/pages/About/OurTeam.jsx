@@ -183,6 +183,8 @@ const OurTeam = () => {
                         Team Members
                     </motion.h2>
 
+
+
                     <motion.p
                         className="mt-4 text-xl text-gray-300 font-light max-w-3xl mx-auto"
                         initial={{ y: -20, opacity: 0 }}
