@@ -41,7 +41,6 @@ const Footer = () => {
 
     return (
         <motion.footer
-            // NOTE: Changing bg-transparent to bg-gray-900/95 for a modern dark look that respects transparency slightly
             className="w-full bg-transparent text-white"
             initial="hidden"
             animate="visible"
@@ -49,7 +48,7 @@ const Footer = () => {
         >
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
 
-             
+
 
                 {/* --- 2. Main Footer Content Grid --- */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-12 pb-16 pt-8">
